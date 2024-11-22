@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login ID Generator</title>
+    <script>
+        const translations = {
+            en: {
+                title: "Student Login ID Generator",
+                instructions: "Select Your Name and Course to retrieve your Login ID.",
+                nameLabel: "Select Your Name:",
+                courseLabel: "Select Your Course/Department:",
+                getIdButton: "Get Exam Login ID",
+                successMessage: "Success! Your login ID is: ",
+                nextPageNote: "Please ensure you enter this login ID correctly on the next page to avoid disqualification.",
+                errorMessage: "No ID found for the selected name and course combination.",
+                emptyMessage: "Please select both name and course.",
+                takeExamButton: "Take Practice Exam Now"
+            },
+            fr: {
+                title: "Générateur d'identifiant de connexion étudiant",
+                instructions: "Sélectionnez votre nom et votre cours pour récupérer votre identifiant de connexion.",
+                nameLabel: "Sélectionnez votre nom:",
+                courseLabel: "Sélectionnez votre cours / département:",
+                getIdButton: "Obtenez l'identifiant de connexion à l'examen",
+                successMessage: "Succès ! Votre identifiant de connexion est : ",
+                nextPageNote: "Veuillez vous assurer de saisir correctement cet identifiant de connexion sur la page suivante pour éviter la disqualification.",
+                errorMessage: "Aucun identifiant trouvé pour la combinaison nom et cours sélectionnée.",
+                emptyMessage: "Veuillez sélectionner à la fois un nom et un cours.",
+                takeExamButton: "Passez l'examen pratique maintenant"
+            }
+        };
+
+        const studentData = {
+            "mbiandun": { "Nursing": "mb63sf" },
+            "birwe": { "Nursing": "bi70sf" },
+            "nkouakep": { "Midwifery": "nk22sf" },
+            "nga": { "Nursing": "ng43sf" },
+            "nguevou": { "Nursing": "ng67sf" },
+            "nnanga": { "Nursing": "nn58sf" },
+            "kenfack": { "Nursing": "ke47sf" },
+            "njike": { "Laboratory tech": "nj35tf" }
+        };
+
+        let currentLanguage = 'en';
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+
+            // Update text based on selected language
+            document.getElementById('title').innerText = translations[lang].title;
+            document.getElementById('instructions').innerText = translations[lang].instructions;
+            document.getElementById('nameLabel').innerText = translations[lang].nameLabel;
+            document.getElementById('courseLabel').innerText = translations[lang].courseLabel;
+            document.getElementById('getIdButton').innerText = translations[lang].getIdButton;
+        }
+
+        function generateKey() {
+            const name = document.getElementById("studentName").value;
+            const course = document.getElementById("courseName").value;
+            const keyDisplay = document.getElementById("studentKey");
+            const examButton = document.getElementById("examButton");
+
+            if (!name || !course) {
+                keyDisplay.innerText = translations[currentLanguage].emptyMessage;
+                examButton.style.display = "none"; // Hide the button if inputs are invalid
+                return;
+            }
+
+            if (studentData[name] && studentData[name][course]) {
+                keyDisplay.innerText = `${translations[currentLanguage].successMessage} ${studentData[name][course]}. ${translations[currentLanguage].nextPageNote}`;
+                examButton.style.display = "block"; // Show the button
+            } else {
+                keyDisplay.innerText = translations[currentLanguage].errorMessage;
+                examButton.style.display = "none"; // Hide the button if no ID is found
+            }
+        }
+    </script>
+</head>
+<body onload="setLanguage('en')">
+    <h1 id="title"></h1>
+    <p id="instructions"></p>
+
+    <label for="languageSelector">Language / Langue:</label>
+    <select id="languageSelector" onchange="setLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+    </select>
+    <br><br>
+
+    <label id="nameLabel" for="studentName"></label>
+    <select id="studentName">
+        <option value="">--Select Your Name--</option>
+        <option value="mbiandun">Mbiandun Kouamou Jossinet</option>
+        <option value="birwe">Birwe Abel Foulna</option>
+        <option value="nkouakep">Nkouakep Diane Laure</option>
+        <option value="nga">Nga Belinga Marie</option>
+        <option value="nguevou">Nguevou Ange Etelle</option>
+        <option value="nnanga">Nnanga Olama Elisabeth</option>
+        <option value="kenfack">Kenfack Stephy Lesterone</option>
+        <option value="njike">Njike Tonmy Steve Wilfred</option>
+    </select>
+    <br><br>
+
+    <label id="courseLabel" for="courseName"></label>
+    <select id="courseName">
+        <option value="">--Select Your Course--</option>
+        <option value="Nursing">Nursing</option>
+        <option value="Midwifery">Midwifery</option>
+        <option value="Laboratory tech">Laboratory tech</option>
+    </select>
+    <br><br>
+
+    <button id="getIdButton" onclick="generateKey()"></button>
+
+    <p id="studentKey" style="margin-top: 20px; font-weight: bold;"></p>
+
+    <!-- Hidden button for taking the exam -->
+    <p id="examButton" style="display: none; margin-top: 20px;">
+        <a href="https://exam.net/student?examkey=ujkout" target="_blank"> 
+            <button style="padding: 10px 20px; font-size: 16px; cursor: pointer;"> début
+                <span id="examButtonText"></span>
+            </button>
+        </a>
+    </p>
+</body>
+</html>
